@@ -13,5 +13,11 @@ public class MyConfiguration implements Configuration {
 
         binder.bind(A.class, B.class);
         binder.bind(B.class, new B());
+
+        binder.bind(TestWithInjectAno.class);
+        binder.bind(D.class);
+
+        binder.bind(C.class, D.class);
+        binder.bind(D.class, new D());
     }
 }

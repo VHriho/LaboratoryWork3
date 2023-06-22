@@ -5,8 +5,7 @@ import org.fpm.di.Environment;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 public class Example {
 
@@ -43,5 +42,44 @@ public class Example {
     public void shouldBuildInjectDependencies() {
         final UseA hasADependency = container.getComponent(UseA.class);
         assertSame(hasADependency.getDependency(), container.getComponent(B.class));
+    }
+
+    @Test
+    public void shouldBuildInjectDependenciesDTest(){
+        final D dTest = container.getComponent(D.class);
+        assertSame(container.getComponent(D.class), dTest);
+    }
+
+    @Test
+    public void shouldBuildInjectDependenciesNewD(){
+        final D dTest = container.getComponent(D.class);
+        final D newDTest = container.getComponent(D.class);
+        assertSame(dTest, newDTest);
+    }
+
+    @Test
+    public void shouldBuildInjectDependenciesAnother(){
+        final TestWithInjectAno testVar = container.getComponent(TestWithInjectAno.class);
+        final TestWithInjectAno anotherTestVar = container.getComponent(TestWithInjectAno.class);
+        assertSame(testVar.getC(),container.getComponent(C.class));
+        assertSame(testVar.getC(), anotherTestVar.getC());
+        assertNotSame(testVar, anotherTestVar);
+    }
+
+    @Test
+    public void shouldBuildSingletonInjection(){
+        final D dTest = container.getComponent(D.class);
+        final D anotherDTest = container.getComponent(D.class);
+        final C cTest = container.getComponent(C.class);
+        final C anotherCTest = container.getComponent(C.class);
+        assertSame(cTest,anotherCTest);
+        assertSame(dTest, anotherDTest);
+    }
+
+    @Test
+    public void NotEqualInstance() {
+        final D dTest = new D();
+        final D anotherDTest = container.getComponent(D.class);
+        assertNotSame(dTest, anotherDTest);
     }
 }
